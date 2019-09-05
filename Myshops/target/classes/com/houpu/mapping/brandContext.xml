@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houpu.dao.brandDao">
+	<resultMap type="com.houpu.model.Brand" id="usermap">
+	    <id column="bid" property="bid" jdbcType="BIGINT"/>
+        <result column="BrandName" property="BrandName" jdbcType="VARCHAR"/>
+        <result column="TypeId" property="TypeId" jdbcType="BIGINT"/>
+        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		<association property="type" javaType="com.houpu.model.Type">
+		    <id column="tid" property="tid" jdbcType="BIGINT"/>
+	        <result column="TypeName" property="TypeName" jdbcType="VARCHAR"/>
+	        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+			<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+			<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+			<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+	     </association>
+	</resultMap>
+	<!-- 品牌模糊查询 -->
+	<select id="quertBrandLike" resultMap="usermap">
+	  select * from brand where BrandName  like concat('%',#{BrandName},'%')
+	</select>
+	<!-- 根据id查询单行数据 -->
+	<select id="brandQueryOne" resultMap="usermap">
+	select * from brand,type where brand.TypeId=type.tid and bid=#{bid}
+	</select>
+	<!-- 根据编号删除品牌 -->
+	<delete id="deleteBrand">
+	 delete from brand where bid=#{bid}
+	</delete>
+	<!-- 添加品牌 -->
+	<insert id="addbrandAction">
+	  insert into brand(BrandName,TypeId,createUser,createTime) values (#{BrandName},#{type},#{createUser},#{createTime})
+	</insert>
+	<!-- 根据brandid查询type数据 -->
+	<select id="shopBandid" resultMap="usermap">
+	   select * from brand,type where brand.TypeId=type.tid and brand.bid=#{bid}
+	</select>
+	<!-- 查询所有品牌 -->
+	<select id="brandAll" resultMap="usermap">
+	  select * from brand
+	</select>
+</mapper>

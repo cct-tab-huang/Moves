@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+    <!DOCTYPE configuration   
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   
+        "http://mybatis.org/dxxxxxxxxxxxtd/mybatis-3-config.dtd">  
+<configuration>  
+      <settings>  
+          <!-- mybatis运行行为 -->  
+          <setting name="lazyLoadingEnabled" value="false" /><!-- 是否是懒加载 
+          “懒加载模式”又叫“懒汉模式”是指当第一次使用到这个属性时才给这个属性对应的成员变量进行初始化，
+          	如果程序还没运行到这个地方就不进行相应的创建和初始化有利于节省资源提高性能-->
+          <!-- 设置mybatis的自动映射级别为FULL（自动匹配所有） -->
+          <setting name="autoMappingBehavior" value="FULL"/>  <!-- 指定 MyBatis 应如何自动映射列到字段或属性。
+          														 NONE 表示取消自动映射；PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集。
+          														  FULL 会自动映射任意复杂的结果集（无论是否嵌套）。默认是partial -->
+      </settings>  
+      
+      <!-- 全局别名 -->
+     <typeAliases>  
+         <!--这里给实体类取别名，方便在mapper配置文件中使用，需要改你自己的包名--> 
+         <package name="com.houpu.model"/>
+     </typeAliases> 
+</configuration>  

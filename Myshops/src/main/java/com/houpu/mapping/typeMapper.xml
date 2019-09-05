@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houpu.dao.typeDao">
+	<resultMap type="com.houpu.model.Type" id="usermap">
+		<id column="tid" property="tid" jdbcType="BIGINT" />
+		<result column="TypeName" property="TypeName" jdbcType="VARCHAR" />
+		<result column="createUser" property="createUser" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询所有商品类型 -->
+	<select id="TypeQueryAll" resultMap="usermap">
+	select * from type
+	</select>
+	<!-- 添加类型 -->
+    <insert id="typeAdd">
+      insert into type(TypeName,createUser,createTime) values(#{type.TypeName},#{type.createUser},#{type.createTime})
+    </insert>
+</mapper>

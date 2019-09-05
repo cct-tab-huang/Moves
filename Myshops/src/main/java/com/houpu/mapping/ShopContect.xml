@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houpu.dao.shopDao">
+	<resultMap type="com.houpu.model.Shop" id="usermap">
+		<id column="sid" property="sid" jdbcType="BIGINT" />
+		<result column="SName" property="SName" jdbcType="VARCHAR" />
+		<result column="SMoney" property="SMoney" jdbcType="DOUBLE" />
+		<result column="SSum" property="SSum" jdbcType="INTEGER" />
+		<result column="salSum" property="salSum" jdbcType="INTEGER" />
+		<result column="SIntro" property="SIntro" jdbcType="VARCHAR" />
+		<result column="Simg" property="Simg" jdbcType="VARCHAR" />
+		<result column="recommend" property="recommend" jdbcType="INTEGER" />
+		<result column="BrandId" property="BrandId" jdbcType="BIGINT" />
+		<result column="UId" property="UId" jdbcType="BIGINT" />
+		<result column="CId" property="CId" jdbcType="BIGINT" />
+		<result column="createUser" property="createUser" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		
+		<association property="brand" javaType="com.houpu.model.Brand">
+		    <id column="bid" property="bid" jdbcType="BIGINT"/>
+	        <result column="BrandName" property="BrandName" jdbcType="VARCHAR"/>
+	        <result column="TypeId" property="TypeId" jdbcType="BIGINT"/>
+	        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+			<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+			<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+			<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+			<association property="type" javaType="com.houpu.model.Type">
+			    <id column="tid" property="tid" jdbcType="BIGINT"/>
+		        <result column="TypeName" property="TypeName" jdbcType="VARCHAR"/>
+		        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+				<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+				<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+				<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		     </association>
+		</association>
+		
+		<association property="user" javaType="com.houpu.model.User">
+	        <id column="uid" property="uid" jdbcType="BIGINT"/>
+	        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+	        <result column="passWord" property="passWord" jdbcType="VARCHAR"/>
+	        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+	        <result column="age" property="age" jdbcType="INTEGER"/>
+	        <result column="email" property="email" jdbcType="VARCHAR"/>
+	        <result column="card" property="card" jdbcType="VARCHAR"/>
+	        <result column="status" property="status" jdbcType="INTEGER"/>
+	        <result column="name" property="name" jdbcType="VARCHAR"/>
+	        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+	        <result column="address" property="address" jdbcType="VARCHAR"/>
+	        <result column="roleId" property="roleId" jdbcType="BIGINT"/>
+	        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+			<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+			<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+			<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+			<association property="role" javaType="com.houpu.model.Role">
+		        <id column="rid" property="uid" jdbcType="BIGINT"/>
+		        <result column="roleName" property="roleName" jdbcType="VARCHAR"/>
+		        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+				<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+				<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+				<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+            </association>
+        </association>
+	</resultMap>
+	<!-- 修改商品信息 -->
+	<update id="commodityModel">
+	update  shop set SName=#{shops.SName},SMoney=#{shops.SMoney},SSum=#{shops.SSum},salSum=#{shops.salSum},SIntro=#{shops.SIntro},Simg=#{shops.Simg},recommend=#{shops.recommend},UId=#{shops.UId},updateTime=#{shops.updateTime},updateUser=#{shops.updateUser} where sid=#{shops.sid}
+	</update>
+	<!-- 模糊查询商品 -->
+	<select id="commdityShopLike" resultMap="usermap">
+	  select * from shop,brand,type,user where shop.UId=user.uid and shop.BrandId=brand.bid and brand.TypeId=type.tid
+	  <if test="SName!=''">
+	      and SName like concat('%',#{SName},'%')
+	  </if>
+	  <if test="brandid!=0">
+	      and bid like concat('%',#{brandid},'%')
+	  </if>
+	  <if test="typeName!=''">
+	      and TypeName like concat('%',#{typeName},'%')
+	  </if>
+	</select>
+	<!-- 修改商品信息 -->
+	<update id="CommodityModel">
+	   update from shop
+	</update>
+	<!-- 根据商品名称查询数据 -->
+	<select id="queryAjaxSname" resultMap="usermap">
+	  select * from shop where BrandId=#{bid}
+	</select>
+	<!-- 查询商品名称 -->
+	<select id="querySname" resultMap="usermap">
+	   select * from shop
+	</select>
+	<!-- 根据商品编号查询商品 -->
+	<select id="queryBySid" resultMap="usermap">
+	   select * from shop where sid=#{cid}
+	</select>
+	<!-- 商品详情查询 -->
+	<select id="details" resultMap="usermap">
+	select * from shop where sid=#{sid}
+	</select>
+	<!-- 是否推荐给客户 -->
+	<select id="queryRecommend" resultMap="usermap">
+	select * from shop where recommend=1
+	</select>
+	<!-- 热销商品查询 -->
+	<select id="queryBySSum" resultMap="usermap">
+	  select * from shop  order by  SSum desc
+	</select>
+	<!-- 查询最新商品 -->
+	<select id="queryByCreateTime" resultMap="usermap">
+	  select * from shop  order by  createTime desc
+	</select>
+	<!-- 根据商品编号查看商品信息 -->
+	<select id="CommoditySelById" resultMap="usermap">
+	   select * from shop,brand,type,user where shop.UId=user.uid and shop.BrandId=brand.bid and brand.TypeId=type.tid and sid=#{sid}
+	  
+	</select>
+	<!-- 根据id删除商品 -->
+	<delete id="CommodityDelById">
+	delete from shop where sid=#{sid}
+	</delete>
+	<!-- 添加商品 -->
+	<insert id="addShopOne">
+	  insert into shop(BrandId,Simg,SName,SSum,SMoney,SIntro,UId,recommend,createUser,createTime) values (#{shop.BrandId},#{shop.Simg},#{shop.SName},#{shop.SSum},#{shop.SMoney},#{shop.SIntro},#{shop.UId},#{shop.recommend},#{shop.createUser},#{shop.createTime})
+	</insert>
+	<!-- 查询所有商品 -->
+	<select id="showQueryAll" resultMap="usermap">
+	   select * from shop,brand,type,user where shop.UId=user.uid and shop.BrandId=brand.bid and brand.TypeId=type.tid
+	</select>
+	
+	</mapper>

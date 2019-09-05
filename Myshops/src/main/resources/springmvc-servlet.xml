@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans.xsd  
+      http://www.springframework.org/schema/context   
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+	<!-- 扫描controller层的注解包 -->
+	<context:component-scan base-package="com.houpu.controller" />
+	<!-- <mvc:annotation-driven> 会自动注册handlerMapping处理引射器和 HaddlerAdapter处理器适配器 -->
+	<mvc:annotation-driven>
+		<!-- json格式请求的字符集转换 -->
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<!-- 通过FastJsonHttpMessageConverter中的features属性指定输出时的日期转换器WriteDateUseDateFormat -->
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteDateUseDateFormat</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- 拦截器 -->
+	
+	
+	 <mvc:interceptors>
+		<mvc:interceptor>
+		    <mvc:mapping path="/*/**/*.jhtml" />
+			<mvc:mapping path="/**/*" />
+			<mvc:exclude-mapping path="/cliLogin" />
+			<mvc:exclude-mapping path="/ClientLogin" />
+			<mvc:exclude-mapping path="/checkCode" />
+			<mvc:exclude-mapping path="/ClientLogin" />
+			<mvc:exclude-mapping path="/Userlogins" />
+			<mvc:exclude-mapping path="/UserLogin" />
+			<mvc:exclude-mapping path="/**/statics/*" />
+			<mvc:exclude-mapping path="/**/layui/css/*" />
+			<mvc:exclude-mapping path="/*/**/*.css" />
+			<mvc:exclude-mapping path="/**/*.js" />
+			<mvc:exclude-mapping path="/**/*.png" />
+			<mvc:exclude-mapping path="/**/*.gif" />
+			<mvc:exclude-mapping path="/**/*.jpg" />
+			<mvc:exclude-mapping path="/**/*.jpeg" />
+			<mvc:exclude-mapping path="/register"/>
+			<mvc:exclude-mapping path="/insertClient"/>
+			<mvc:exclude-mapping path="/autophone"/>
+			<bean class="com.houpu.interceptors.loginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>  
+	<!-- 静态资源文件引入 -->
+	<mvc:resources location="/statics/" mapping="/statics/**"></mvc:resources>
+
+	<!-- 配置多视图解析器，可以使同样的数据以不同的view显示 -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="favorParameter" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html;charset=utf-8" />
+				<entry key="json" value="application/json;charset=utf-8" />
+				<entry key="xml" value="application/xml;charset=utf-8" />
+			</map>
+		</property>
+		<!-- 配置视图解析器 -->
+		<property name="viewResolvers">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 设置上传文件最大值 1M=1*1024*1024(B)=1048576 bytes -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1048576" />
+	</bean>
+
+</beans>   

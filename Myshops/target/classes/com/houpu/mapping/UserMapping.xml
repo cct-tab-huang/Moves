@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.houpu.dao.UserDao">
+	<resultMap type="com.houpu.model.User" id="BaseId">
+		<id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="passWord" property="passWord" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="card" property="card" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="roleId" property="roleId" jdbcType="BIGINT"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		<association property="role" javaType="com.houpu.model.Role">
+		        <id column="rid" property="rid" jdbcType="BIGINT"/>
+		        <result column="roleName" property="roleName" jdbcType="VARCHAR"/>
+		        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+				<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+				<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+				<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+        </association>
+	</resultMap>
+	<!-- 员工进行模糊查询 -->
+	<select id="selNameLike" resultMap="BaseId">
+	   select * from user where name like concat('%',#{name},'%') and status=1
+	</select>
+	<!-- 根据id删除员工 -->
+	<update id="deleteUser">
+	   update user set status=0,updateTime=#{updateTime}, updateUser=#{updateUser} where uid=#{uid} 
+	</update>
+	<!-- 更新修改数据 -->
+	<update id="updateOne">
+	  update user set passWord=#{user.passWord},sex=#{user.sex},age=#{user.age},email=#{user.email},card=#{user.card},address=#{user.address},updateTime=#{user.updateTime},updateUser=#{user.updateUser} where uid=#{user.uid}
+	  			
+	</update>
+	<!-- 根据uid查询单行数据 -->
+	<select id="queryUserOne" resultMap="BaseId">
+	   select * from user where uid=#{uid}
+	</select>
+	<!-- 添加员工 -->
+     <insert id="addUserFrom">
+       insert into user(userName,phone,passWord,status,createUser,createTime,roleId) values(#{userName},#{phone},#{passWord},1,#{createUser},#{createTime},3)
+     </insert>
+    <!-- 员工登录 -->
+   
+	<select id="UserLogin" resultMap="BaseId">
+	     select * from user where userName=#{userName} and passWord=#{passWord} and status=1 
+	</select>
+	
+	<!-- 查询所有关于用户信息 -->
+	<select id="UserQueryAll" resultMap="BaseId">
+	    select * from user,role where user.roleId=role.rid and  status=1 
+	    <if test="roleId==2">
+	      and roleId!=1
+	    </if>
+	    <if test="roleId==3">
+	      and roleId=3
+	    </if>
+	</select>
+
+</mapper>

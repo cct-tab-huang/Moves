@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houpu.dao.orderDao">
+	<resultMap type="com.houpu.model.orderShop" id="usermap">
+		<id column="oid" property="oid" jdbcType="BIGINT" />
+		<result column="uid" property="uid" jdbcType="BIGINT" />
+		<result column="zMoney" property="zMoney" jdbcType="DOUBLE" />
+		<result column="yfSize" property="yfSize" jdbcType="VARCHAR" />
+		<result column="cid" property="cid" jdbcType="BIGINT" />
+		<result column="trackingNumber" property="trackingNumber" jdbcType="VARCHAR" />
+		<result column="orderNum" property="orderNum" jdbcType="VARCHAR" />
+		<result column="orderStatus" property="orderStatus" jdbcType="INTEGER" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="createUser" property="createUser" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		<result column="trackingUser" property="trackingUser" jdbcType="VARCHAR" />
+		<result column="trackingTime" property="trackingTime" jdbcType="VARCHAR" />
+		<association property="shop" javaType="com.houpu.model.Shop">
+			<id column="sid" property="sid" jdbcType="BIGINT" />
+			<result column="SName" property="SName" jdbcType="VARCHAR" />
+			<result column="SMoney" property="SMoney" jdbcType="DOUBLE" />
+			<result column="SSum" property="SSum" jdbcType="INTEGER" />
+			<result column="salSum" property="salSum" jdbcType="INTEGER" />
+			<result column="SIntro" property="SIntro" jdbcType="VARCHAR" />
+			<result column="Simg" property="Simg" jdbcType="VARCHAR" />
+			<result column="recommend" property="recommend" jdbcType="INTEGER" />
+			<result column="BrandId" property="BrandId" jdbcType="BIGINT" />
+			<result column="UId" property="UId" jdbcType="BIGINT" />
+			<result column="CId" property="CId" jdbcType="BIGINT" />
+			<result column="createUser" property="createUser" jdbcType="VARCHAR" />
+			<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+			<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+			<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<!-- 订单模糊查询 -->
+	<select id="orderNumLike" resultMap="usermap">
+	select * from orderShop where orderNum like concat('%',#{orderNum},'%')
+	</select>
+	<!-- 订单发货 -->
+	<update id="orderTracking">
+	  update orderShop set trackingNumber=#{orderShop.trackingNumber},orderStatus=2,trackingUser=#{orderShop.trackingUser},trackingTime=#{orderShop.trackingTime} where oid=#{orderShop.oid} and orderStatus=1
+	</update>
+	<!-- 管理员进行订单管理 -->
+	<select id="orderQueryAll" resultMap="usermap">
+	select * from orderShop
+	</select>
+	<!-- 删除商品 -->
+	<update id="deleteById">
+	update orderShop set orderStatus=4 where oid=#{oid}
+	</update>
+	<!-- 查询订单状态详情 -->
+	<select id="logoshopstatus" resultMap="usermap">
+	   select * from orderShop o,shop s where o.cid=s.sid and o.uid=#{uid} and orderStatus=#{status}
+	</select>
+	<!-- 加入购物车 -->
+	<insert id="editAddcart">
+	   insert into orderShop(uid,cid,zMoney,orderNum,orderStatus,number,createUser,createTime) values(#{orderShop.uid},#{orderShop.cid},#{orderShop.zMoney},#{orderShop.orderNum},0,#{orderShop.number},#{orderShop.createUser},#{orderShop.createTime})
+	</insert>
+	<!-- 查询购物车 -->
+	<select id="queryOrderCard" resultMap="usermap">
+	   select * from orderShop o,shop s where o.cid=s.sid and o.uid=#{uid} and orderStatus!=4
+	</select>
+	<!-- 查询购物车 -->
+	<select id="queryOrderCards" resultMap="usermap">
+	   select * from orderShop o,shop s where o.cid=s.sid and o.uid=#{uid}
+	</select>
+</mapper>

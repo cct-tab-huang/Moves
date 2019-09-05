@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houpu.dao.ClientDao">
+	<resultMap type="com.houpu.model.Client" id="BaseId">
+	        <id column="cid" property="cid" jdbcType="BIGINT"/>
+	        <result column="CPhone" property="CPhone" jdbcType="VARCHAR"/>
+	        <result column="CPassWord" property="CPassWord" jdbcType="VARCHAR"/>
+	        <result column="CSex" property="CSex" jdbcType="VARCHAR"/>
+	        <result column="CCard" property="CCard" jdbcType="VARCHAR"/>
+	        <result column="CAddress" property="CAddress" jdbcType="VARCHAR"/>
+	        <result column="PayPWD" property="PayPWD" jdbcType="VARCHAR"/>
+	        <result column="CName" property="CName" jdbcType="VARCHAR"/>
+	        <result column="CEmail" property="CEmail" jdbcType="VARCHAR"/>
+	        <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+			<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+			<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+			<result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 添加姓名和联系地址 -->
+	<update id="addSelf">
+	     update  client  set CAddress=#{address},CName=#{sName} where cid=#{cid}
+	</update>
+	<!-- 注册 -->
+	<insert id="zhuce">
+		insert into client (CPhone,CPassWord) values (#{CPhone},#{CPassWord})
+	</insert>
+	
+	<!-- 根据电话号码查询单行数据是否已经存在数据库 -->
+	<select id="selectbyphone" resultMap="BaseId">
+		select * from client where CPhone=#{CPhone}
+	</select>
+	
+	<!-- 登录 -->
+	<select id="ClientLogin" resultMap="BaseId">
+	     select * from client where CPhone=#{CPhone} and CPassWord=#{CPassWord}
+	</select>
+	
+	<!-- 查询所有用户信息 -->
+	<select id="ClientQueryAll" resultMap="BaseId">
+	      select * from client
+	</select>
+	
+</mapper>

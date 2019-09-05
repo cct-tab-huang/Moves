@@ -1,0 +1,310 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+}
+li{
+	list-style: none;
+}
+body{
+	background: #F6F6F6;
+	font: 12px/1.5 tahoma, arial, Microsoft YaHei, sans-serif;
+}
+.img2 img{
+	float: left;
+}
+/*
+ nav
+ */
+.nav{
+	background: #EEEEEE;
+	overflow: auto;
+	padding: 10px 0;
+}
+.nav a{
+	color: gray;
+}
+.nav a:hover{
+	color: red;
+}
+.nav_body{
+	width: 1100px;
+	margin: auto;
+}
+.nav_left ul li{
+	margin-right: 10px;
+	float: left;
+}
+.nav_body .ul{
+	float: right;
+}
+.nav_body .ul li{
+	float: left;
+	margin-left: 10px;
+	display: inline-block;
+}
+
+/*
+ banner
+ */
+.banner{
+	border-bottom: 3px solid #C60023;
+	overflow:auto ;
+
+}
+.banner_in{
+	width: 1100px;
+	margin: auto;
+}
+.banner_logo{
+	width: 300px;
+	height: 150px;
+	text-align: center;
+	line-height: 150px;
+	float: left;
+}
+.banner_logo h1{
+	color: #C60023;
+	font-size: 40px;
+	font-weight: bold;	
+}
+.banner_input{
+	overflow: auto;
+	padding: 53px 0;
+}
+.banner_input input:first-child{
+	width: 500px;
+	height: 40px;
+	float: left;
+	font-size: 20px;
+	text-indent: 1em;
+	border: 2px #C60023 solid;
+	margin-left: 10px;
+}
+.banner_input input:last-child{
+	font-weight: bold;
+}
+input:focus{
+	outline: none;
+}
+.banner_input #btn{
+	width: 100px;
+	height:44px;
+	font-size: 20px;
+	background: #C60023;
+	position: absolute;
+	border: none;
+	color: white;
+}
+.banner_input #btn:hover{
+	background: red;
+	cursor: pointer;
+}
+
+/*
+ detail
+ * */
+.detail_tile{
+	background:#EEEEEE ;
+}
+.det{
+	width: 1100px;
+	margin: auto;
+	padding: 10px 0;
+	color: dimgray;
+}
+.det a{
+	color:dimgray;
+}
+.det a:hover{
+	color: red;
+}
+.detail_magn{
+	width: 1100px;
+	margin: auto;
+	overflow: auto;
+	padding: 20px 0;
+}
+
+.magn_left{
+	width: 400px;
+	height: 485px;
+	float: left;
+}
+ .thumbnail{
+ 	position: relative;
+ 	border: solid darkgray 1px;
+ 	cursor: move;
+ 	width: 400px;
+ 	height: 400px;
+ }
+.ul li:hover{
+ 	cursor: pointer;
+ }
+.style{
+ 	border: solid 2px firebrick;
+ }
+ .thumbnail img{
+ 	height: 400px;
+ 	width: 400px;
+ 	position: absolute;
+ }
+  .thumbnail_1{
+  	width: 320px;
+  	height: 320px;
+  	position: absolute;
+  	z-index: 1;
+  	overflow: hidden;
+  	display: none;
+  	border: solid darkgray 1px;
+  }
+ .img{position: absolute;} 
+/* 这里按2.5倍放大，400px/160px=2.5 */
+.float_box {
+    width: 160px;
+    height: 160px;
+    background:papayawhip; /* 半透明效果 */
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+.magn_left ul li{
+	 width: 72px;
+	 height: 72px;
+	 margin-top: 10px;
+	 margin-right: 10px;
+	 box-sizing: border-box;
+	
+}
+
+.magn_left ul li:last-child{
+	margin-right: 0;
+}
+.magn_left ul li img{
+	width: 68px;
+	height: 68px;
+}
+.magn_right{
+	width: 675px;
+	float: right;
+	}
+.magn_right_info{
+	width: 675px;
+	position: absolute;
+}
+.magn_right h2{
+	font-size:22px ;
+	margin-bottom: 10px;
+}
+.magn_right p{
+	color: #C60023;
+	font-weight: bold;
+}
+.magn_right span{
+	display: block;
+	padding: 10px 0;
+	margin: 30px 0;
+	color: darkgray;
+	font-size: 16px;
+	background: #EEEEEE;
+}
+.magn_right span h3{
+	display: inline-block;
+	color: #C60023;
+
+}
+.magn_right .lab{
+	color: darkgray;
+	font-size: 16px;
+}
+.magn_right .lab h3{
+	display: inline-block;
+	margin-bottom: 30px;
+	color: black;
+}
+.i{
+	width: 100%;
+	background: yellow;
+}
+.i_tex{
+	width: 70px;
+	height: 50px;
+	float: left;
+	line-height: 50px;
+}
+.i_tex p{
+	color: darkgray;
+	font-size: 16px;
+	font-weight:inherit ;
+}
+.i #inbody{
+	width: 120px;
+	height: 50px;
+	position: absolute;
+	margin-left: 73px;
+}
+.i #inbody .o1{
+	width: 70px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size:16px ;
+    border: solid darkgray 1px;
+    float: left;
+}
+.i #inbody .o2,.i #inbody .o3{
+	width: 25px;
+	height: 22px;
+	border: solid darkgray 1px;
+	float: left;
+	margin-left: 2px;
+	text-align: center;
+	line-height: 20px;
+}
+.i #inbody .o2{
+	margin-bottom: 4px;
+}
+.o2:hover,.o3:hover{
+	cursor: pointer;
+	transform: scale(1.1);
+}
+.bnt input{
+	background: #C60023 ;
+	margin-top: 76px;
+	margin-left:-70px;
+	border: none;
+	color: white;
+	font-size: 22px;
+	padding: 10px 20px;
+}
+.magn_right_info .bnt input:hover{
+	background: red;
+	cursor: pointer;
+}
+
+/*
+ <!--详情描述  cirtance--> 
+ * */
+.cirtance {
+	width: 1100px;
+	margin: auto;
+	border-bottom: 2px #C60023 solid;
+	margin-bottom: 20px;
+}
+.cirtance h2{
+	width: 150px;
+	padding: 20px 0;
+	text-align: center;
+	background: #C60023;
+	color: white;
+}
+.cirtance_img{
+	text-align: center;
+	width: 1100px;
+	margin: auto;
+}
+
